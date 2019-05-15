@@ -18,8 +18,8 @@ public class QuadTree {
         insertPoint(root, point);
     }
 
-    public double determineRadiusOfPoint(int k,Point point){
-        Node node = determineLeafNodeForRadius(root, point);
+    public double determineRadiusOfPoint(int k, Point point){
+        Node node = determineLeafNode(root, point);
 
         double d = Integer.MIN_VALUE;
         boolean i = true;
@@ -29,7 +29,7 @@ public class QuadTree {
                 node = node.getParent();
             }
             else{
-                
+
                 double distance;
 
                 double d1 = harvesine(point.getX(), point.getY(), node.getUpperBoundx(), node.getUpperBoundy());
@@ -62,20 +62,20 @@ public class QuadTree {
         return d;
     }
 
-    private Node determineLeafNodeForRadius(Node node, Point point){
+    private Node determineLeafNode(Node node, Point point){
 
         if(node.hasChildrenQuadrants()){
             if(node.getTopLeftChildQuadrant().intersects(point)){
-                return determineLeafNodeForInsertion(node.getTopLeftChildQuadrant(), point);
+                return determineLeafNode(node.getTopLeftChildQuadrant(), point);
             }
             else if(node.getTopRightChildQuadrant().intersects(point)){
-                return determineLeafNodeForInsertion(node.getTopRightChildQuadrant(), point);
+                return determineLeafNode(node.getTopRightChildQuadrant(), point);
             }
             else if(node.getBottomRightChildQuadrant().intersects(point)){
-                return determineLeafNodeForInsertion(node.getBottomRightChildQuadrant(), point);
+                return determineLeafNode(node.getBottomRightChildQuadrant(), point);
             }
             else if(node.getBottomLeftChildQuadrant().intersects(point)){
-                return determineLeafNodeForInsertion(node.getBottomLeftChildQuadrant(), point);
+                return determineLeafNode(node.getBottomLeftChildQuadrant(), point);
             }
             else{
                 try {
