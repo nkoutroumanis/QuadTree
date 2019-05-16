@@ -27,13 +27,16 @@ public class QuadTreeTest {
         for(int i=0;i<1000000;i++)
         {
             //System.out.println(i);
-            quadTree.insertPoint(Point.newPoint(Math.random()*0.5d,Math.random()*0.5d));
+             quadTree.insertPoint(Point.newPoint(Math.random()*0.5d,Math.random()*0.5d));
         }
 
+        System.out.println("Number of contained points of Tree "+ quadTree.getNumberOfInsertedPoints());
 
 
-        quadTree.insertPoint(Point.newPoint(1.00000000000000015,1.00000000000000015));
-        quadTree.insertPoint(Point.newPoint(1.0000000000000011,1.0000000000000011));
+
+
+//        quadTree.insertPoint(Point.newPoint(1.00000000000000015,1.00000000000000015));
+//        quadTree.insertPoint(Point.newPoint(1.0000000000000011,1.0000000000000011));
 
         System.out.println("Construction Tree time (ms): " + (System.currentTimeMillis()-startTime));
 
@@ -45,9 +48,9 @@ public class QuadTreeTest {
         kryo.setReferences(true);
 
 
-        Output output = new Output(new FileOutputStream("./src/test/resources/serializedTree/file.bin"));
-        kryo.writeObject(output, quadTree);
-        output.close();
+//        Output output = new Output(new FileOutputStream("./src/test/resources/serializedTree/file.bin"));
+//        kryo.writeObject(output, quadTree);
+//        output.close();
 
 //        Input input = new Input(new FileInputStream("file.bin"));
 //        SomeClass object2 = kryo.readObject(input, SomeClass.class);

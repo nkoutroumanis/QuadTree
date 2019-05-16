@@ -267,11 +267,11 @@ public class QuadTree {
         return root.getNumberOfContainedPoints();
     }
 
-    public void serializeQuadTree(String exportPath){
+    public void serializeQuadTree(String exportPath) {
 
     }
 
-    public void deserializeQuadTree(String pathOfBinFile){
+    public void deserializeQuadTree(String pathOfBinFile) {
 
     }
 
