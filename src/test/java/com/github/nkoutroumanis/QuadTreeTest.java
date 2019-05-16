@@ -27,7 +27,7 @@ public class QuadTreeTest {
         for(int i=0;i<1000000;i++)
         {
             //System.out.println(i);
-             quadTree.insertPoint(Point.newPoint(Math.random()*0.5d,Math.random()*0.5d));
+            quadTree.insertPoint(Point.newPoint(Math.random()*0.5d,Math.random()*0.5d));
         }
 
         System.out.println("Number of contained points of Tree "+ quadTree.getNumberOfInsertedPoints());
