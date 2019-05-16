@@ -27,7 +27,7 @@ public class QuadTreeJob {
 //        quadTree.insertPoint(Point.newPoint(5.5,5.5));
 //        quadTree.insertPoint(Point.newPoint(6.6,6.7));
 
-        System.out.println(quadTree.determineRadiusOfPoint(1,Point.newPoint(0,0)));
+        System.out.println(quadTree.determineRadiusOfPoint(1, Point.newPoint(0,0)));
         System.out.println("Number of contained points of Tree "+ quadTree.getNumberOfInsertedPoints());
         System.out.println(QuadTree.o);
 

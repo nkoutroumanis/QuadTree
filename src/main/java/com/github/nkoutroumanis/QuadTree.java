@@ -4,80 +4,65 @@ public class QuadTree {
 
     private final Node root;
     private final int MAX_NUMBER_OF_POINTS_IN_LEAVES = 1;
-    public static int o = 0 ;
+    public static int o = 0;
 
-    private QuadTree(Node root){
+    private QuadTree(Node root) {
         this.root = root;
     }
 
-    public static QuadTree newQuadTree(double lowerBoundx, double lowerBoundy, double upperBoundx, double upperBoundy){
+    public static QuadTree newQuadTree(double lowerBoundx, double lowerBoundy, double upperBoundx, double upperBoundy) {
         return new QuadTree(Node.newNode(null, lowerBoundx, lowerBoundy, upperBoundx, upperBoundy));
     }
 
-    public void insertPoint(Point point){
+    public void insertPoint(Point point) {
         insertPoint(root, point);
     }
 
-    public double determineRadiusOfPoint(int k, Point point){
-        Node node = determineLeafNode(root, point);
+    public double determineRadiusOfPoint(int k, Point point) {
+        Node node = determineNodeForRadiusEstimation(k, point, root);
 
-        double d = Integer.MIN_VALUE;
-        boolean i = true;
-        while(i){
+        double distance;
 
-            if(node.getNumberOfContainedPoints()< k){
-                node = node.getParent();
-            }
-            else{
+        double d1 = harvesine(point.getX(), point.getY(), node.getUpperBoundx(), node.getUpperBoundy());
+        distance = d1;
 
-                double distance;
+        double d2 = harvesine(point.getX(), point.getY(), node.getLowerBoundx(), node.getLowerBoundy());
 
-                double d1 = harvesine(point.getX(), point.getY(), node.getUpperBoundx(), node.getUpperBoundy());
-                distance = d1;
-
-                double d2 = harvesine(point.getX(), point.getY(), node.getLowerBoundx(), node.getLowerBoundy());
-
-                if (Double.compare(d2, distance) == 1) {
-                    distance = d2;
-                }
-
-                double d3 = harvesine(point.getX(), point.getY(), node.getUpperBoundx(), node.getLowerBoundy());
-
-                if (Double.compare(d3, distance) == 1) {
-                    distance = d3;
-                }
-
-                double d4 = harvesine(point.getX(), point.getY(), node.getLowerBoundx(), node.getUpperBoundy());
-
-                if (Double.compare(d4, distance) == 1) {
-                    distance = d4;
-                }
-
-                d = distance;
-                i = false;
-
-            }
+        if (Double.compare(d2, distance) == 1) {
+            distance = d2;
         }
 
-        return d;
+        double d3 = harvesine(point.getX(), point.getY(), node.getUpperBoundx(), node.getLowerBoundy());
+
+        if (Double.compare(d3, distance) == 1) {
+            distance = d3;
+        }
+
+        double d4 = harvesine(point.getX(), point.getY(), node.getLowerBoundx(), node.getUpperBoundy());
+
+        if (Double.compare(d4, distance) == 1) {
+            distance = d4;
+        }
+
+        return distance;
+
     }
 
-    private Node determineLeafNode(Node node, Point point){
+    private Node determineNodeForRadiusEstimation(int k, Point point, Node node) {
+        if (!node.hasChildrenQuadrants()) {//if node is leaf
+            return node;
+        }
 
-        if(node.hasChildrenQuadrants()){
-            if(node.getTopLeftChildQuadrant().intersects(point)){
-                return determineLeafNode(node.getTopLeftChildQuadrant(), point);
-            }
-            else if(node.getTopRightChildQuadrant().intersects(point)){
-                return determineLeafNode(node.getTopRightChildQuadrant(), point);
-            }
-            else if(node.getBottomRightChildQuadrant().intersects(point)){
-                return determineLeafNode(node.getBottomRightChildQuadrant(), point);
-            }
-            else if(node.getBottomLeftChildQuadrant().intersects(point)){
-                return determineLeafNode(node.getBottomLeftChildQuadrant(), point);
-            }
-            else{
+        if (node.getNumberOfContainedPoints() >= k) {
+            if (node.getTopLeftChildQuadrant().intersects(point)) {
+                return determineNodeForRadiusEstimation(k, point, node.getTopLeftChildQuadrant());
+            } else if (node.getTopRightChildQuadrant().intersects(point)) {
+                return determineNodeForRadiusEstimation(k, point, node.getTopRightChildQuadrant());
+            } else if (node.getBottomRightChildQuadrant().intersects(point)) {
+                return determineNodeForRadiusEstimation(k, point, node.getBottomRightChildQuadrant());
+            } else if (node.getBottomLeftChildQuadrant().intersects(point)) {
+                return determineNodeForRadiusEstimation(k, point, node.getBottomLeftChildQuadrant());
+            } else {
                 try {
                     throw new Exception("Error1");
                 } catch (Exception e) {
@@ -85,8 +70,79 @@ public class QuadTree {
                 }
             }
         }
-        return node;
+        return node.getParent();
     }
+
+
+//    public double determineRadiusOfPoint(int k, Point point){
+//        Node node = determineLeafNode(root, point);
+//
+//        double d = Integer.MIN_VALUE;
+//        boolean i = true;
+//        while(i){
+//
+//            if(node.getNumberOfContainedPoints()< k){
+//                node = node.getParent();
+//            }
+//            else{
+//
+//                double distance;
+//
+//                double d1 = harvesine(point.getX(), point.getY(), node.getUpperBoundx(), node.getUpperBoundy());
+//                distance = d1;
+//
+//                double d2 = harvesine(point.getX(), point.getY(), node.getLowerBoundx(), node.getLowerBoundy());
+//
+//                if (Double.compare(d2, distance) == 1) {
+//                    distance = d2;
+//                }
+//
+//                double d3 = harvesine(point.getX(), point.getY(), node.getUpperBoundx(), node.getLowerBoundy());
+//
+//                if (Double.compare(d3, distance) == 1) {
+//                    distance = d3;
+//                }
+//
+//                double d4 = harvesine(point.getX(), point.getY(), node.getLowerBoundx(), node.getUpperBoundy());
+//
+//                if (Double.compare(d4, distance) == 1) {
+//                    distance = d4;
+//                }
+//
+//                d = distance;
+//                i = false;
+//
+//            }
+//        }
+//
+//        return d;
+//    }
+
+//    private Node determineLeafNode(Node node, Point point){
+//
+//        if(node.hasChildrenQuadrants()){
+//            if(node.getTopLeftChildQuadrant().intersects(point)){
+//                return determineLeafNode(node.getTopLeftChildQuadrant(), point);
+//            }
+//            else if(node.getTopRightChildQuadrant().intersects(point)){
+//                return determineLeafNode(node.getTopRightChildQuadrant(), point);
+//            }
+//            else if(node.getBottomRightChildQuadrant().intersects(point)){
+//                return determineLeafNode(node.getBottomRightChildQuadrant(), point);
+//            }
+//            else if(node.getBottomLeftChildQuadrant().intersects(point)){
+//                return determineLeafNode(node.getBottomLeftChildQuadrant(), point);
+//            }
+//            else{
+//                try {
+//                    throw new Exception("Error1");
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }
+//        return node;
+//    }
 
     private static double harvesine(double lon1, double lat1, double lon2, double lat2) {
 
@@ -105,41 +161,36 @@ public class QuadTree {
         return r * c;
     }
 
-    private void insertPoint(Node node, Point point){
+    private void insertPoint(Node node, Point point) {
 
         Node leafNode = determineLeafNodeForInsertion(node, point);
 
-        if(leafNode.getNumberOfContainedPoints() == MAX_NUMBER_OF_POINTS_IN_LEAVES){
+        if (leafNode.getNumberOfContainedPoints() == MAX_NUMBER_OF_POINTS_IN_LEAVES) {
             createQuadrants(leafNode);
             o++;
             disseminatePointsToQuadrants(leafNode);
             insertPoint(leafNode, point);
-        }
-        else{
+        } else {
             addPointToNode(leafNode, point);
         }
     }
 
-    private Node determineLeafNodeForInsertion(Node node, Point point){
+    private Node determineLeafNodeForInsertion(Node node, Point point) {
 
-        if(node.hasChildrenQuadrants()){
-            if(node.getTopLeftChildQuadrant().intersects(point)){
+        if (node.hasChildrenQuadrants()) {
+            if (node.getTopLeftChildQuadrant().intersects(point)) {
                 node.increaseByOneNumberOfContainedPoints();
                 return determineLeafNodeForInsertion(node.getTopLeftChildQuadrant(), point);
-            }
-            else if(node.getTopRightChildQuadrant().intersects(point)){
+            } else if (node.getTopRightChildQuadrant().intersects(point)) {
                 node.increaseByOneNumberOfContainedPoints();
                 return determineLeafNodeForInsertion(node.getTopRightChildQuadrant(), point);
-            }
-            else if(node.getBottomRightChildQuadrant().intersects(point)){
+            } else if (node.getBottomRightChildQuadrant().intersects(point)) {
                 node.increaseByOneNumberOfContainedPoints();
                 return determineLeafNodeForInsertion(node.getBottomRightChildQuadrant(), point);
-            }
-            else if(node.getBottomLeftChildQuadrant().intersects(point)){
+            } else if (node.getBottomLeftChildQuadrant().intersects(point)) {
                 node.increaseByOneNumberOfContainedPoints();
                 return determineLeafNodeForInsertion(node.getBottomLeftChildQuadrant(), point);
-            }
-            else{
+            } else {
                 try {
                     throw new Exception("Error1");
                 } catch (Exception e) {
@@ -147,43 +198,43 @@ public class QuadTree {
                 }
             }
         }
-            return node;
+        return node;
     }
 
 
-    private void createQuadrants(Node node){
+    private void createQuadrants(Node node) {
 
-        node.setChildQuadrants(Node.newNode(node, node.getLowerBoundx(), (node.getUpperBoundy() + node.getLowerBoundy())/2, (node.getUpperBoundx() + node.getLowerBoundx())/2, node.getUpperBoundy()),
+        node.setChildQuadrants(Node.newNode(node, node.getLowerBoundx(), (node.getUpperBoundy() + node.getLowerBoundy()) / 2, (node.getUpperBoundx() + node.getLowerBoundx()) / 2, node.getUpperBoundy()),
 
-                Node.newNode(node,(node.getUpperBoundx() + node.getLowerBoundx())/2, (node.getUpperBoundy() + node.getLowerBoundy())/2, node.getUpperBoundx(), node.getUpperBoundy()),
+                Node.newNode(node, (node.getUpperBoundx() + node.getLowerBoundx()) / 2, (node.getUpperBoundy() + node.getLowerBoundy()) / 2, node.getUpperBoundx(), node.getUpperBoundy()),
 
-                Node.newNode(node,(node.getUpperBoundx() + node.getLowerBoundx())/2, node.getLowerBoundy(), node.getUpperBoundx(), (node.getUpperBoundy() + node.getLowerBoundy())/2),
+                Node.newNode(node, (node.getUpperBoundx() + node.getLowerBoundx()) / 2, node.getLowerBoundy(), node.getUpperBoundx(), (node.getUpperBoundy() + node.getLowerBoundy()) / 2),
 
-                Node.newNode(node, node.getLowerBoundx(), node.getLowerBoundy(), (node.getUpperBoundx() + node.getLowerBoundx())/2, (node.getUpperBoundy() + node.getLowerBoundy())/2));
+                Node.newNode(node, node.getLowerBoundx(), node.getLowerBoundy(), (node.getUpperBoundx() + node.getLowerBoundx()) / 2, (node.getUpperBoundy() + node.getLowerBoundy()) / 2));
     }
 
-    private void disseminatePointsToQuadrants(Node node){
+    private void disseminatePointsToQuadrants(Node node) {
 
         Point[] points = node.getPoints();
 
-        for(int i=0;i<points.length;i++){
+        for (int i = 0; i < points.length; i++) {
 
-            if(node.getTopLeftChildQuadrant().intersects(points[i])){
+            if (node.getTopLeftChildQuadrant().intersects(points[i])) {
                 addPointToNode(node.getTopLeftChildQuadrant(), points[i]);
                 continue;
             }
 
-            if(node.getTopRightChildQuadrant().intersects(points[i])){
+            if (node.getTopRightChildQuadrant().intersects(points[i])) {
                 addPointToNode(node.getTopRightChildQuadrant(), points[i]);
                 continue;
             }
 
-            if(node.getBottomRightChildQuadrant().intersects(points[i])){
+            if (node.getBottomRightChildQuadrant().intersects(points[i])) {
                 addPointToNode(node.getBottomRightChildQuadrant(), points[i]);
                 continue;
             }
 
-            if(node.getBottomLeftChildQuadrant().intersects(points[i])){
+            if (node.getBottomLeftChildQuadrant().intersects(points[i])) {
                 addPointToNode(node.getBottomLeftChildQuadrant(), points[i]);
                 continue;
             }
@@ -194,9 +245,9 @@ public class QuadTree {
 
     }
 
-    private void addPointToNode(Node node, Point point){
+    private void addPointToNode(Node node, Point point) {
 
-        if(node.getPoints() == null){
+        if (node.getPoints() == null) {
             node.setPoints(new Point[MAX_NUMBER_OF_POINTS_IN_LEAVES]);
         }
 
@@ -205,15 +256,24 @@ public class QuadTree {
 
     }
 
-    public String toString(){
+    public String toString() {
         StringBuilder sb = new StringBuilder();
 
-       return sb.toString();
+        return sb.toString();
 
     }
 
-    public int getNumberOfInsertedPoints(){
+    public int getNumberOfInsertedPoints() {
         return root.getNumberOfContainedPoints();
     }
+
+    public void serializeQuadTree(String exportPath){
+
+    }
+
+    public void deserializeQuadTree(String pathOfBinFile){
+
+    }
+
 
 }
