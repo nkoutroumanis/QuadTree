@@ -6,7 +6,7 @@ public class QuadTreeJob {
 
     public static void main(String args[]){
 
-        QuadTree quadTree = QuadTree.newQuadTree(0,0,1000,1000);
+        QuadTree quadTree = QuadTree.newQuadTree(0,0,1000,1000, 100);
 
         Random r = new Random();
         for(int i=0;i<5000000;i++)

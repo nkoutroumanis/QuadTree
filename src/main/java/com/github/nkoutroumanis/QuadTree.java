@@ -3,15 +3,16 @@ package com.github.nkoutroumanis;
 public class QuadTree {
 
     private final Node root;
-    private final int MAX_NUMBER_OF_POINTS_IN_LEAVES = 1;
+    private final int MAX_NUMBER_OF_POINTS_IN_LEAVES;
     public static int o = 0;
 
-    private QuadTree(Node root) {
+    private QuadTree(Node root, int maxNumberOfPointsInLeaves) {
         this.root = root;
+        this.MAX_NUMBER_OF_POINTS_IN_LEAVES = maxNumberOfPointsInLeaves;
     }
 
-    public static QuadTree newQuadTree(double lowerBoundx, double lowerBoundy, double upperBoundx, double upperBoundy) {
-        return new QuadTree(Node.newNode(null, lowerBoundx, lowerBoundy, upperBoundx, upperBoundy));
+    public static QuadTree newQuadTree(double lowerBoundx, double lowerBoundy, double upperBoundx, double upperBoundy, int maxNumberOfPointsInLeaves) {
+        return new QuadTree(Node.newNode(null, lowerBoundx, lowerBoundy, upperBoundx, upperBoundy), maxNumberOfPointsInLeaves);
     }
 
     public void insertPoint(Point point) {
