@@ -21,7 +21,7 @@ public class QuadTreeTest {
 
 
         long startTime = System.currentTimeMillis();
-        QuadTree quadTree = QuadTree.newQuadTree(0,0,1000,1000, 100);
+        QuadTree quadTree = QuadTree.newQuadTree(0,0,1000,1000, 1);
 
         Random r = new Random();
         for(int i=0;i<1000000;i++)
@@ -48,9 +48,9 @@ public class QuadTreeTest {
         kryo.setReferences(true);
 
 
-//        Output output = new Output(new FileOutputStream("./src/test/resources/serializedTree/file.bin"));
-//        kryo.writeObject(output, quadTree);
-//        output.close();
+        Output output = new Output(new FileOutputStream("./src/test/resources/serializedTree/file.bin"));
+        kryo.writeObject(output, quadTree);
+        output.close();
 
 //        Input input = new Input(new FileInputStream("file.bin"));
 //        SomeClass object2 = kryo.readObject(input, SomeClass.class);

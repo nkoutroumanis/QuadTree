@@ -1,5 +1,13 @@
 package com.github.nkoutroumanis;
 
+import com.esotericsoftware.kryo.Kryo;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+import com.esotericsoftware.kryo.util.DefaultInstantiatorStrategy;
+import org.objenesis.strategy.StdInstantiatorStrategy;
+
+import java.io.*;
+
 public class QuadTree {
 
     private final Node root;
@@ -268,12 +276,41 @@ public class QuadTree {
         return root.getNumberOfContainedPoints();
     }
 
-    public void serializeQuadTree(String exportPath) {
+    public void serializeQuadTree(String exportPath) throws IOException {
+
+        File file = new File(exportPath);
+        if (file.getParentFile().mkdir()) {
+            file.createNewFile();
+        }
+
+        Kryo kryo = new Kryo();
+        kryo.register(QuadTree.class);
+        kryo.register(Node.class);
+        kryo.register(Point[].class);
+        kryo.register(Point.class);
+        kryo.setReferences(true);
+
+
+        Output output = new Output(new FileOutputStream(exportPath));
+        kryo.writeObject(output, this);
+        output.close();
 
     }
 
-    public void deserializeQuadTree(String pathOfBinFile) {
+    public static QuadTree deserializeQuadTree(String pathOfBinFile) throws FileNotFoundException {
+        Kryo kryo = new Kryo();
+        kryo.register(QuadTree.class);
+        kryo.register(Node.class);
+        kryo.register(Point[].class);
+        kryo.register(Point.class);
+        kryo.setReferences(true);
+        kryo.setInstantiatorStrategy(new DefaultInstantiatorStrategy(new StdInstantiatorStrategy()));
 
+        Input input = new Input(new FileInputStream(pathOfBinFile));
+
+        QuadTree quadTree = kryo.readObject(input, QuadTree.class);
+        input.close();
+        return quadTree;
     }
 
 
