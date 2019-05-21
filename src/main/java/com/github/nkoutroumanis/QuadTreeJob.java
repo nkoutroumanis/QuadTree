@@ -16,7 +16,6 @@ public class QuadTreeJob {
         }
 
 
-
         quadTree.insertPoint(Point.newPoint(1.00000000000000015,1.00000000000000015));
         quadTree.insertPoint(Point.newPoint(1.0000000000000011,1.0000000000000011));
 //        quadTree.insertPoint(Point.newPoint(1,1));
