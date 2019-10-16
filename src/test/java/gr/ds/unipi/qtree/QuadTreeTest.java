@@ -1,4 +1,4 @@
-package com.github.nkoutroumanis;
+package gr.ds.unipi.qtree;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
@@ -11,8 +11,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.Random;
-
-import static org.junit.Assert.*;
 
 public class QuadTreeTest {
 

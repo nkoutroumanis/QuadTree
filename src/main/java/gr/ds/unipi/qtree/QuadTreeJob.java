@@ -1,4 +1,4 @@
-package com.github.nkoutroumanis;
+package gr.ds.unipi.qtree;
 
 import java.util.Random;
 

@@ -1,6 +1,4 @@
-package com.github.nkoutroumanis;
-
-import java.util.Set;
+package gr.ds.unipi.qtree;
 
 public class Node {
 

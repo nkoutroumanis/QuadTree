@@ -1,4 +1,4 @@
-package com.github.nkoutroumanis;
+package gr.ds.unipi.qtree;
 
 public class Point {
 

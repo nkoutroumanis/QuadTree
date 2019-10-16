@@ -1,4 +1,4 @@
-package com.github.nkoutroumanis;
+package gr.ds.unipi.qtree;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
