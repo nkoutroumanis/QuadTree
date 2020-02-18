@@ -14,6 +14,7 @@ import java.util.Random;
 
 public class QuadTreeTest {
 
+
     @Test
     public void serializeQuadTree() throws FileNotFoundException {
 
@@ -22,7 +23,7 @@ public class QuadTreeTest {
         QuadTree quadTree = QuadTree.newQuadTree(0,0,1000,1000, 1);
 
         Random r = new Random();
-        for(int i=0;i<1000000;i++)
+        for(int i=0;i<1000;i++)
         {
             //System.out.println(i);
             quadTree.insertPoint(Point.newPoint(Math.random()*0.5d,Math.random()*0.5d));
@@ -46,7 +47,7 @@ public class QuadTreeTest {
         kryo.setReferences(true);
 
 
-        Output output = new Output(new FileOutputStream("./src/test/resources/serializedTree/file.bin"));
+        Output output = new Output(new FileOutputStream("./src/test/resources/file.bin"));
         kryo.writeObject(output, quadTree);
         output.close();
 
@@ -70,7 +71,7 @@ public class QuadTreeTest {
         kryo.setInstantiatorStrategy(new DefaultInstantiatorStrategy(new StdInstantiatorStrategy()));
         // kryo.setReferences(true);
 
-        Input input = new Input(new FileInputStream("./src/test/resources/serializedTree/file.bin"));
+        Input input = new Input(new FileInputStream("./src/test/resources/file.bin"));
 
         QuadTree quadTree = kryo.readObject(input, QuadTree.class);
         //input.close();
