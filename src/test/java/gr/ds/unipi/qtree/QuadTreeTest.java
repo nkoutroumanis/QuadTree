@@ -4,6 +4,7 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.util.DefaultInstantiatorStrategy;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.objenesis.strategy.StdInstantiatorStrategy;
 
@@ -15,6 +16,7 @@ import java.util.Random;
 public class QuadTreeTest {
 
 
+    @Ignore
     @Test
     public void serializeQuadTree() throws FileNotFoundException {
 
@@ -58,7 +60,7 @@ public class QuadTreeTest {
 
     }
 
-
+    @Ignore
     @Test
     public void deserializeQuadTree() throws FileNotFoundException {
 
